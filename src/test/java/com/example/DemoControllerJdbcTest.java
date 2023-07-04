@@ -15,8 +15,8 @@ import org.springframework.test.context.ActiveProfiles;
         webEnvironment = WebEnvironment.RANDOM_PORT,
         properties = { "spring.datasource.url=jdbc:tc:postgresql:15.2-alpine:///databasename" }
     )
-    @ActiveProfiles("test")
-    public class DemoControllerJdbcTest {
+@ActiveProfiles("test")
+public class DemoControllerJdbcTest {
 
     @Autowired
     TestRestTemplate restTemplate;

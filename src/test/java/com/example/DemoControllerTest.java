@@ -5,14 +5,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(
     classes = DemoApplication.class,
-    webEnvironment = WebEnvironment.RANDOM_PORT
+    webEnvironment = WebEnvironment.RANDOM_PORT,
+    properties = {
+            "spring.datasource.url=jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL",
+            "spring.datasource.password=",
+            "spring.datasource.username=sa"
+    }
 )
 public class DemoControllerTest {
 
@@ -21,14 +24,6 @@ public class DemoControllerTest {
 
     @Autowired
     DemoRepository demoRepository;
-
-    @DynamicPropertySource
-    static void datasourceProperties(DynamicPropertyRegistry registry) {
-
-        registry.add("spring.datasource.username", () -> "sa");
-        registry.add("spring.datasource.password", () -> "");
-        registry.add("spring.datasource.url", () -> "jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1;MODE=PostgreSQL");
-    }
 
     @Test
     public void simpleJPATest() {
